@@ -4,9 +4,10 @@ import com.davinci.recuperatorio_dos.model.Pedido;
 import com.davinci.recuperatorio_dos.model.Usuario;
 import com.davinci.recuperatorio_dos.repository.PedidoRepository;
 import com.davinci.recuperatorio_dos.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class UsuarioService {
         return usuario;
     }
 
-
+    @Transactional
     public Usuario createUsuarioAndAddPedidos(Usuario usuario, List<Long> pedidoIds) {
         usuario = usuarioRepository.save(usuario);
         List<Pedido> pedidos = pedidoRepository.findAllById(pedidoIds);

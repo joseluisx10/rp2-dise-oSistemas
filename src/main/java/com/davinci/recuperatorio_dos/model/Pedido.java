@@ -1,15 +1,18 @@
 package com.davinci.recuperatorio_dos.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,6 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonIgnore
     private Usuario usuario; // Relación muchos a uno con Usuario
 
     @ManyToMany
@@ -28,7 +30,6 @@ public class Pedido {
             joinColumns = @JoinColumn(name = "pedido_id"),
             inverseJoinColumns = @JoinColumn(name = "producto_id")
     )
-    @JsonIgnore
     private List<Producto> productos;
 
     public Pedido() {
