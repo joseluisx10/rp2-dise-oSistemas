@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,15 +26,15 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public UsuarioDTO registrarUsuario(@RequestBody Usuario usuario) {
-        Usuario usuarioRegistrado = usuarioService.registrarUsuario(usuario);
-        return new UsuarioDTO(usuarioRegistrado.getId(),usuarioRegistrado.getUsername(), usuarioRegistrado.getEmail(), usuarioRegistrado.getRol());
+    public UsuarioDTO registrarUsuario(@RequestParam List<Long> pedidoIds, @RequestBody Usuario usuario) {
+        Usuario usuarioRegistrado = usuarioService.createUsuarioAndAddPedidos(usuario, pedidoIds);
+        return new UsuarioDTO(usuarioRegistrado.getId(),usuarioRegistrado.getUsername(), usuarioRegistrado.getEmail(), usuarioRegistrado.getRol(), usuarioRegistrado.getPedidos());
     }
 
     @PostMapping("/login")
     public UsuarioDTO autenticarUsuario(@RequestBody Usuario usuario) {
         usuario = usuarioService.autenticarUsuario(usuario);
-        return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getEmail(), usuario.getRol());
+        return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getEmail(), usuario.getRol(), usuario.getPedidos());
     }
 
     @GetMapping("/{id}")
@@ -43,7 +44,7 @@ public class UsuarioController {
         if (usuarioOptional.isPresent()) {
             usuario = usuarioOptional.get();
         }
-        return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getEmail(), usuario.getRol());
+        return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getEmail(), usuario.getRol(), usuario.getPedidos());
     }
 
     @PutMapping("/{id}")
@@ -56,7 +57,7 @@ public class UsuarioController {
             usuario.setEmail(usuarioActualizado.getEmail());
             usuario.setRol(usuarioActualizado.getRol());
             Usuario usuarioGuardado = usuarioService.editarUsuario(usuario);
-            UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioGuardado.getId(), usuarioGuardado.getUsername(), usuarioGuardado.getEmail(), usuarioGuardado.getRol());
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioGuardado.getId(), usuarioGuardado.getUsername(), usuarioGuardado.getEmail(), usuarioGuardado.getRol(), usuarioGuardado.getPedidos());
             return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -82,4 +82,7 @@ public class Pedido {
     }
 
 
+    public void setUser(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

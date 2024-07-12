@@ -1,10 +1,14 @@
 package com.davinci.recuperatorio_dos.service;
 
+import com.davinci.recuperatorio_dos.model.Pedido;
 import com.davinci.recuperatorio_dos.model.Usuario;
+import com.davinci.recuperatorio_dos.repository.PedidoRepository;
 import com.davinci.recuperatorio_dos.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -12,6 +16,8 @@ import java.util.Optional;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public Usuario registrarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
@@ -31,5 +37,14 @@ public class UsuarioService {
             return null;
         }
         return usuario;
+    }
+
+    @Transactional
+    public Usuario createUsuarioAndAddPedidos(Usuario usuario, List<Long> pedidoIds) {
+        List<Pedido> pedidos = pedidoRepository.findAllById(pedidoIds);
+        for (Pedido pedido : pedidos) {
+            usuario.addOrder(pedido);
+        }
+        return usuarioRepository.save(usuario);
     }
 }

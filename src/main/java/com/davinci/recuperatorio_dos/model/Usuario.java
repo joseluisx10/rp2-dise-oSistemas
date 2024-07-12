@@ -68,4 +68,14 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public Pedido addOrder(Pedido pedido){
+        this.pedidos.add(pedido);
+        pedido.setUser(this);
+        return pedido;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
 }
