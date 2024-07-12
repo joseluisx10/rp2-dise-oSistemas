@@ -15,10 +15,13 @@ import java.util.List;
 public class CategoriaController {
 
     /***
+     * categoria
      * {
      *     "nombre" : "botines",
      *     "productos": []
      * }
+     *
+     * producto
      * {
      *
      *     "nombre": "zapato nike",
@@ -29,7 +32,7 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
-
+    //http://localhost:8080/categorias?productoIds=1
     @PostMapping
     public ResponseEntity<Categoria> agregarCategoria(@RequestParam List<Long> productoIds, @RequestBody Categoria categoria) {
 

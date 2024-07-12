@@ -16,8 +16,13 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+    /**
+     * {
+     * "fecha": "2024-07-10",
+     * "estado": "PENDIENTE"
+     * }*/
 
-
+//http://localhost:8080/pedidos?productoIds=1,....
     @PostMapping
     public Pedido nuevoPedido(@RequestParam List<Long> productoIds, @RequestBody Pedido pedido) {
         // Asignar fecha actual al pedido

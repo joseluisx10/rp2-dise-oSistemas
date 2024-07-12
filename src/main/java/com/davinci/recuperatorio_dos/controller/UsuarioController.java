@@ -24,7 +24,7 @@ public class UsuarioController {
 }*/
     @Autowired
     private UsuarioService usuarioService;
-
+    //http://localhost:8080/usuarios?pedidoIds=1,......
     @PostMapping
     public Usuario registrarUsuario(@RequestParam List<Long> pedidoIds, @RequestBody Usuario usuario) {
         Usuario usuarioRegistrado = usuarioService.createUsuarioAndAddPedidos(usuario, pedidoIds);
