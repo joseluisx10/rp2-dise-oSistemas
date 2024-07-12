@@ -3,6 +3,10 @@ package com.davinci.recuperatorio_dos.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @Entity
 public class Producto {
     @Id
@@ -16,7 +20,9 @@ public class Producto {
     @JoinColumn(name = "categoria_id")
     @JsonIgnore
     private Categoria categoria;
-
+    @ManyToMany(mappedBy = "productos")
+    @JsonIgnore
+    private List<Pedido> pedidos = new ArrayList<>();
     public Producto() {}
 
     public Producto(String nombre, String descripcion, double precio, Categoria categoria) {
@@ -64,5 +70,14 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

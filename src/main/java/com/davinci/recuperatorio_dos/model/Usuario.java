@@ -15,6 +15,7 @@ public class Usuario {
     private String email;
     private String rol; // Podría ser "ADMIN" o "CLIENTE"
 
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos;
 

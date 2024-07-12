@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +17,12 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
+
     @PostMapping
-    public Pedido nuevoPedido(@RequestBody Pedido pedido) {
+    public Pedido nuevoPedido(@RequestParam List<Long> productoIds, @RequestBody Pedido pedido) {
         // Asignar fecha actual al pedido
-        pedido.setFecha(LocalDateTime.now());
-        return pedidoService.save(pedido);
+
+        return pedidoService.nuevoPedido(pedido, productoIds);
     }
 
     @GetMapping
@@ -47,11 +47,13 @@ public class PedidoController {
         if (pedidoOptional.isPresent()) {
             Pedido pedido = pedidoOptional.get();
             pedido.setEstado(pedidoActualizado.getEstado());
-            Pedido pedidoGuardado = pedidoService.save(pedido);
+            Pedido pedidoGuardado = pedidoService.actualizarEstadoPedido(pedido);
             return new ResponseEntity<>(pedidoGuardado, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 
 }

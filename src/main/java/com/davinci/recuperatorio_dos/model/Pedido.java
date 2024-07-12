@@ -3,8 +3,10 @@ package com.davinci.recuperatorio_dos.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
@@ -12,7 +14,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime fecha;
+    private Date fecha;
     private String estado; // Puede ser "PENDIENTE", "EN PROCESO", "ENVIADO", etc.
 
     @ManyToOne
@@ -26,17 +28,21 @@ public class Pedido {
             joinColumns = @JoinColumn(name = "pedido_id"),
             inverseJoinColumns = @JoinColumn(name = "producto_id")
     )
-    private List<Producto> productos = new ArrayList<>();
+    @JsonIgnore
+    private List<Producto> productos;
 
-    public Pedido(LocalDateTime fecha, String estado, Usuario cliente) {
+    public Pedido() {
+        this.productos = new ArrayList<>();
+    }
+
+    public Pedido(Date fecha, String estado, Usuario cliente) {
         this.fecha = fecha;
         this.estado = estado;
         this.usuario = cliente;
-    }
-
-    public Pedido() {
 
     }
+
+
 
     public Long getId() {
         return id;
@@ -46,11 +52,11 @@ public class Pedido {
         this.id = id;
     }
 
-    public LocalDateTime getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -70,11 +76,10 @@ public class Pedido {
         this.usuario = cliente;
     }
 
-    /*public List<ItemPedido> getItems() {
-        return items;
+
+    public List<Producto> getProductos() {
+        return productos;
     }
 
-    public void setItems(List<ItemPedido> items) {
-        this.items = items;
-    }*/
+
 }

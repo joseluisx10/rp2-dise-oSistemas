@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS usuario (
 -- Crear tabla de Pedidos
 CREATE TABLE IF NOT EXISTS pedido (
                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        fecha TIMESTAMP NOT NULL,
+                        fecha DATE NOT NULL,
                         estado VARCHAR(50) NOT NULL,
                         usuario_id BIGINT,
                         FOREIGN KEY (usuario_id) REFERENCES usuario(id)
