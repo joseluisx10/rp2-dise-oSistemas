@@ -26,9 +26,9 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public UsuarioDTO registrarUsuario(@RequestParam List<Long> pedidoIds, @RequestBody Usuario usuario) {
+    public Usuario registrarUsuario(@RequestParam List<Long> pedidoIds, @RequestBody Usuario usuario) {
         Usuario usuarioRegistrado = usuarioService.createUsuarioAndAddPedidos(usuario, pedidoIds);
-        return new UsuarioDTO(usuarioRegistrado.getId(),usuarioRegistrado.getUsername(), usuarioRegistrado.getEmail(), usuarioRegistrado.getRol(), usuarioRegistrado.getPedidos());
+        return usuarioRegistrado;
     }
 
     @PostMapping("/login")

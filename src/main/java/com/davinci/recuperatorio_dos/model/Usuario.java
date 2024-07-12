@@ -19,14 +19,16 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos;
 
-    public Usuario() {}
+    public Usuario() {
+        this.pedidos = new ArrayList<>();
+    }
 
     public Usuario(String username, String password, String email, String rol) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.rol = rol;
-        this.pedidos = new ArrayList<>();
+
     }
 
     public Long getId() {
@@ -70,8 +72,8 @@ public class Usuario {
     }
 
     public Pedido addOrder(Pedido pedido){
-        this.pedidos.add(pedido);
         pedido.setUser(this);
+        this.pedidos.add(pedido);
         return pedido;
     }
 

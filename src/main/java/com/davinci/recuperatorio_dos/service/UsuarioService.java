@@ -39,11 +39,13 @@ public class UsuarioService {
         return usuario;
     }
 
-    @Transactional
+
     public Usuario createUsuarioAndAddPedidos(Usuario usuario, List<Long> pedidoIds) {
+        usuario = usuarioRepository.save(usuario);
         List<Pedido> pedidos = pedidoRepository.findAllById(pedidoIds);
         for (Pedido pedido : pedidos) {
-            usuario.addOrder(pedido);
+            pedido = usuario.addOrder(pedido);
+            pedidoRepository.save(pedido);
         }
         return usuarioRepository.save(usuario);
     }
